@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Course Title - EduHub</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+      </nav>
+
+    <main class="container my-5">
+      <h1 id="courseTitle"></h1>
+      <p id="courseDescription"></p>
+
+      <ul class="nav nav-tabs" id="courseTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="lectures-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#lectures"
+            type="button"
+            role="tab"
+            aria-controls="lectures"
+            aria-selected="true"
+          >
+            Lectures
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="materials-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#materials"
+            type="button"
+            role="tab"
+            aria-controls="materials"
+            aria-selected="false"
+          >
+            Materials
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="assignments-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#assignments"
+            type="button"
+            role="tab"
+            aria-controls="assignments"
+            aria-selected="false"
+          >
+            Assignments
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="courseTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="lectures"
+          role="tabpanel"
+          aria-labelledby="lectures-tab"
+        >
+          Lectures content...
+        </div>
+        <div
+          class="tab-pane fade"
+          id="materials"
+          role="tabpanel"
+          aria-labelledby="materials-tab"
+        >
+          Materials content...
+        </div>
+        <div
+          class="tab-pane fade"
+          id="assignments"
+          role="tabpanel"
+          aria-labelledby="assignments-tab"
+        >
+          Assignments content...
+        </div>
+      </div>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
+    <script src="js/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get("id");
+
+        if (courseId) {
+          try {
+            const courseData = await fetchCourseData(courseId); // Replace with API call
+            document.getElementById("courseTitle").textContent =
+              courseData.title;
+            document.getElementById("courseDescription").textContent =
+              courseData.description;
+            // ... populate tabs with lectures, materials, assignments
+          } catch (error) {
+            console.error("Error fetching course data:", error);
+            // Handle error, e.g., display an error message
+          }
+        } else {
+          console.error("Course ID not found in URL.");
+          // Handle error, e.g., redirect to dashboard
+        }
+      });
+
+      async function fetchCourseData(courseId) {
+        // Replace with your actual API call
+        try {
+          const response = await fetch(`/api/courses/${courseId}`);
+          return await response.json();
+        } catch (error) {
+          console.error("Error fetching course data:", error);
+          throw error; // Re-throw the error to be handled by the caller
+        }
+      }
+    </script>
+  </body>
+</html>

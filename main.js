@@ -19,3 +19,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         courseList.innerHTML += courseCard;
     });
 });
+
+document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target.tagName === 'A' && target.href.startsWith(window.location.origin)) { 
+      event.preventDefault(); 
+      const page = target.href.split('/').pop(); // Get the page name (e.g., "dashboard.html")
+      loadPage(page); // Function to load the page content
+    }
+  });
+  
+  async function loadPage(page) {
+    try {
+      const response = await fetch(page);
+      const html = await response.text();
+      document.querySelector('main').innerHTML = html; // Update the main content area
+      // ... (Optional) Update the active link in the navbar
+    } catch (error) {
+      console.error('Error loading page:', error);
+      // Handle the error (e.g., display an error message)
+    }
+  }
